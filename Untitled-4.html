@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TravelGuide — туристичний сайт (прототип)</title>
+  <style>
+
+
+
+@keyframes fly {
+      0% { transform: translateX(-50px); }
+      50% { transform: translateX(50px); }
+      100% { transform: translateX(-50px); }
+    }
+    :root{
+      --accent:#0b7dbf;
+      --muted:#666;
+      --card:#fff;
+      --bg:#f5f7fb;
+      --glass: rgba(255,255,255,0.8);
+      --maxw:1100px;
+      font-family: Inter, system-ui, -apple-system, Roboto, "Segoe UI", Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:#222}
+    .container{max-width:var(--maxw);margin:0 auto;padding:20px}
+
+    /* HEADER */
+    header{background:linear-gradient(90deg,var(--accent),#2aa1d6);color:#fff;padding:18px 0}
+    .nav{display:flex;align-items:center;justify-content:space-between}
+    .logo{font-weight:700;font-size:20px}
+    nav ul{list-style:none;display:flex;gap:14px;margin:0;padding:0}
+    nav a{color:#fff;text-decoration:none;font-weight:600}
+    .cta{background:#fff;color:var(--accent);padding:8px 12px;border-radius:8px;font-weight:700}
+
+    /* HERO */
+    .hero{padding:40px 0;display:flex;gap:30px;align-items:center}
+    .hero-left{flex:1}
+    .hero h1{margin:0 0 12px;font-size:32px}
+    .search{display:flex;gap:10px;margin-top:12px}
+    .search input, .search select{padding:10px;border-radius:8px;border:1px solid #ddd;flex:1}
+    .search button{background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:8px}
+    .hero-right{flex:1;text-align:right}
+    .hero-right img{max-width:320px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+
+    /* CARDS */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:20px}
+    .card{background:var(--card);padding:12px;border-radius:12px;box-shadow:0 6px 16px rgba(15,15,15,.06)}
+    .card img{width:100%;height:130px;object-fit:cover;border-radius:8px}
+    .card h3{margin:10px 0 4px;font-size:16px}
+    .muted{color:var(--muted);font-size:14px}
+
+    /* SECTION TITLES */
+    .section{margin:30px 0}
+    .section h2{margin:0 0 8px}
+
+    /* BLOG */
+    .blog-list{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .blog-item{display:flex;gap:12px}
+    .blog-item img{width:120px;height:80px;object-fit:cover;border-radius:8px}
+
+    /* FOOTER */
+    footer{padding:20px 0;color:#fff;background:#0c6a94}
+    footer .container{display:flex;justify-content:space-between;align-items:center}
+
+    /* RESPONSIVE */
+    @media(max-width:800px){
+      .hero{flex-direction:column;text-align:left}
+      .hero-right{text-align:left}
+      .blog-list{grid-template-columns:1fr}
+    }
+
+    /* SIMPLE MODAL / DETAILS */
+    .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.45);visibility:hidden;opacity:0;transition:all .18s}
+    .modal.show{visibility:visible;opacity:1}
+    .modal .panel{background:var(--glass);backdrop-filter:blur(6px);padding:18px;border-radius:12px;max-width:900px;width:95%}
+
+    /* SMALL WIDGETS */
+    .widgets{display:flex;gap:12px;flex-wrap:wrap}
+    .widget{flex:1;min-width:180px;background:var(--card);padding:12px;border-radius:10px}
+    .flex{display:flex;gap:12px;align-items:center}
+
+    /* FOOTER LINKS */
+    .footer-links{display:flex;gap:20px}
+    .small{font-size:13px;color:var(--muted)}
+
+    /* CONTACT FORM */
+    form input, form textarea{width:100%;padding:8px;border-radius:8px;border:1px solid #ddd;margin-top:8px}
+    form button{margin-top:8px;padding:10px;border-radius:8px;border:none;background:var(--accent);color:#fff}
+
+
+
+    /* ============================
+      АДАПТАЦІЯ ДЛЯ ТЕЛЕФОНІВ
+   ============================ */
+@media(max-width: 600px){
+
+  /* Контейнер */
+  .container{
+    padding:14px;
+  }
+
+  /* ШАПКА */
+  header .nav{
+    flex-direction:column;
+    gap:10px;
+    text-align:center;
+  }
+
+  nav ul{
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+  }
+
+  nav a{
+    font-size:14px;
+  }
+
+  /* HERO */
+  .hero{
+    flex-direction:column;
+    gap:18px;
+    padding:25px 0;
+  }
+
+  .hero h1{
+    font-size:24px;
+    line-height:1.2;
+  }
+
+  .hero-right{
+    text-align:center;
+    width:100%;
+  }
+
+  .hero-right img{
+    max-width:95%;
+    height:auto;
+  }
+
+  /* ПОШУК */
+  .search{
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .search input,
+  .search select,
+  .search button{
+    width:100%;
+  }
+
+  /* Віджети */
+  .widgets{
+    flex-direction:column;
+  }
+
+  /* Грід карток */
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .card img{
+    height:160px;
+  }
+
+  /* БЛОГ */
+  .blog-list{
+    grid-template-columns:1fr;
+  }
+
+  .blog-item{
+    flex-direction:column;
+  }
+
+  .blog-item img{
+    width:100%;
+    height:150px;
+  }
+
+  /* Контакти */
+  #contact form input,
+  #contact form textarea{
+    font-size:14px;
+  }
+
+  /* Футер */
+  footer .container{
+    flex-direction:column;
+    gap:8px;
+    text-align:center;
+  }
+
+  .footer-links{
+    flex-direction:column;
+    gap:6px;
+  }
+
+  /* МОДАЛЬНЕ ВІКНО */
+  .modal .panel{
+    width:90%;
+    padding:14px;
+  }
+}
+
+
+
+/* ======= БУРГЕР-МЕНЮ ======= */
+.burger{
+  display:none;
+  font-size:28px;
+  cursor:pointer;
+  user-select:none;
+}
+
+/* Мобільне меню */
+#mobileMenu{
+  transition:0.3s;
+}
+
+/* АДАПТАЦІЯ */
+@media(max-width:700px){
+
+  nav ul{
+    flex-direction:column;
+    padding:0;
+  }
+
+  /* Ховаємо меню */
+  #mobileMenu{
+    max-height:0;
+    overflow:hidden;
+    background:#0b7dbf;
+    margin-top:10px;
+    border-radius:10px;
+  }
+
+  #mobileMenu.show{
+    max-height:400px;
+    padding:10px 0;
+  }
+
+  #mobileMenu a{
+    display:block;
+    padding:10px 20px;
+    font-size:18px;
+  }
+
+  /* Показуємо бургер */
+  .burger{
+    display:block;
+  }
+
+  .nav{
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+  }
+
+  nav ul{
+    gap:0;
+  }
+}
+
+  </style>
+</head>
+<body style="overflow:hidden;"> <!-- приховує скрол до завантаження -->
+
+  <!-- Прелоадер -->
+  <div id="preloader" style="position:fixed;inset:0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;">
+    <!-- Літак -->
+    <div class="plane-animation" style="
+      width:80px;
+      height:40px;
+      background-image:url('airplane-silhouette-black-isolated-white-background-vector-illustration_718801-2437.avif');
+      background-size:contain;
+      background-repeat:no-repeat;
+      margin-bottom:20px;
+      animation:fly 3s linear infinite;
+    "></div>
+
+ <div class="loader-bar" style="width:300px;height:12px;background:#ddd;border-radius:6px;overflow:hidden;margin-bottom:10px;">
+      <div class="loader-fill" id="loader-fill" style="width:0%;height:100%;background:#0b7dbf;"></div>
+    </div>
+
+    <p class="muted">Завантаження сайту...</p>
+  </div>
+    <!-- Основний контент сайту -->
+  <div id="mainContent" style="display:none;">
+   
+    
+  
+
+  <header>
+    <!-- БУРГЕР-МЕНЮ -->
+<div class="burger" id="burger">
+  ☰
+</div>
+
+<nav id="mobileMenu">
+  <ul>
+    <li><a href="#" data-link="home">Головна</a></li>
+    <li><a href="#" data-link="countries">Країни</a></li>
+    <li><a href="#" data-link="categories">Категорії</a></li>
+    <li><a href="#" data-link="guides">Путівники</a></li>
+    <li><a href="#" data-link="blog">Блог</a></li>
+    <li><a href="#" data-link="contact">Контакти</a></li>
+  </ul>
+</nav>
+
+  </header>
+
+  <main class="container" id="app">
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="hero-left">
+        <h1>Відкрий світ: маршрути, путівники та поради для мандрівників</h1>
+        <p class="muted">Наш сервіс допоможе знайти найцікавіші маршрути, дізнатись про сезонність, транспорт, бюджет та корисні поради для комфортної подорожі.</p>
+
+        <div class="search" onsubmit="return false">
+          <input id="searchInput" placeholder="Країна, місто або тип відпочинку" />
+          <select id="typeSelect">
+            <option value="">Усі типи</option>
+            <option value="beach">Пляж</option>
+            <option value="mountain">Гори</option>
+            <option value="city">Міста</option>
+          </select>
+          <button id="searchBtn">Шукати</button>
+        </div>
+
+        <div class="widgets" style="margin-top:14px">
+          <div class="widget">
+            <div class="small">Погода</div>
+            <div id="weather">Введи місто і натисни "Шукати"</div>
+          </div>
+          <div class="widget">
+            <div class="small">Валюта (приблизно)</div>
+            <div>
+              <div class="flex">
+                <input id="amount" placeholder="UAH" value="1000" />
+                <select id="currency">
+                  <option value="USD">USD</option>
+                  <option value="EUR">EUR</option>
+                </select>
+                <button id="convertBtn">Перевести</button>
+              </div>
+              <div id="converted" class="muted" style="margin-top:8px"> — </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="hero-right">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=0a1e4c6d6a3f7c4b0a4db0ad9b2d7b1c" alt="travel"/>
+      </div>
+    </section>
+
+    <!-- POPULAR DESTINATIONS -->
+    <section class="section">
+      <h2>Популярні напрямки</h2>
+      <div class="grid" id="popular"></div>
+    </section>
+
+    <!-- COUNTRIES -->
+    <section class="section" id="countries">
+      <h2>Країни</h2>
+      <div class="grid" id="countriesGrid"></div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="section" id="categories">
+      <h2>Категорії відпочинку</h2>
+      <div class="grid" id="categoriesGrid"></div>
+    </section>
+
+    <!-- GUIDES -->
+    <section class="section" id="guides">
+      <h2>Путівники</h2>
+      <div id="guidesList" class="grid"></div>
+    </section>
+
+    <!-- BLOG -->
+    <section class="section" id="blog">
+      <h2>Останні статті</h2>
+      <div class="blog-list" id="blogList"></div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <h2>Контакти</h2>
+      <div style="display:flex;gap:14px;flex-wrap:wrap">
+        <div style="flex:1;min-width:260px">
+          <p class="muted">Напиши нам — і ми відповімо протягом 1–2 днів (прототип).</p>
+          <form id="contactForm">
+            <input id="name" placeholder="Твоє ім'я" required />
+            <input id="email" placeholder="Email" required />
+            <textarea id="message" placeholder="Повідомлення" rows="5"></textarea>
+            <button type="submit">Надіслати</button>
+          </form>
+        </div>
+        <div style="flex:1;min-width:260px">
+          <h3>Про нас</h3>
+          <p class="small">TravelGuide — це онлайн‑платформа для мандрівників, де ти знайдеш детальні путівники, огляди країн, підбірки маршрутів, бюджетні поради та статті, які допоможуть зробити твою поїздку легкою і комфортною.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: DETAILS -->
+  <div class="modal" id="modal">
+    <div class="panel" role="dialog" aria-modal="true">
+      <button id="closeModal" style="float:right">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div>© TravelGuide 2025</div>
+      <div class="footer-links small">
+        <div>Політика конфіденційності</div>
+        <div>Умови використання</div>
+      </div>
+    </div>
+  </footer>
+</div>
+  <script>
+    // --- Sample data (replace / expand) ---
+    const data = {
+      popular:[
+        {id:'paris',title:'Париж, Франція',img:'https://www.poehalisnami.ua/ContentData/Img/Blog/paris_chto_posmotret_1.jpg'},
+        {id:'kyiv',title:'Київ, Україна',img:'https://img.freepik.com/free-photo/kiev-skyline-beautiful-fiery-sunset-ukraine-monument-motherland_1153-5419.jpg?semt=ais_hybrid&w=740&q=80'},
+        {id:'rome',title:'Рим, Італія',img:'https://images.unsplash.com/photo-1508057198894-247b23fe5ade?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=7b4e1e9a2c3f4b5a'}
+      ],
+      countries:[
+        {code:'FR',name:'Франція',desc:'Країна мистецтва, їжі та романтики',cities:['Paris','Nice','Lyon'],bestTime:'Квітень–Червень, Вересень–Жовтень',priceLevel:'Високий'},
+        {code:'UA',name:'Україна',desc:'Різноманітні краєвиди: міста, гори, чорноморські узбережжя',cities:['Kyiv','Lviv','Odessa'],bestTime:'Травень–Вересень',priceLevel:'Невисокий'},
+        {code:'IT',name:'Італія',desc:'Історія, архітектура та смачна кухня',cities:['Rome','Venice','Florence'],bestTime:'Квітень–Червень, Вересень–Жовтень',priceLevel:'Середній'}
+      ],
+      categories:[
+        {id:'beach',title:'Пляжний відпочинок',desc:'Сонце, море та пісок — найкращий спосіб розслабитися і забути про щоденні турботи. Плавання, прогулянки вздовж берега та свіже морське повітря заряджають енергією.'},
+        {id:'mountain',title:'Гірські курорти',desc:'Чисте повітря, захопливі краєвиди та активний відпочинок. Лижі, сноуборд або піші прогулянки горами допомагають відчути гармонію з природою.'},
+        {id:'city',title:'Міські екскурсії',desc:'Відкрийте нові міста, музеї та історичні пам’ятки. Прогулянки по центру, кафе та цікаві маршрути роблять відпочинок пізнавальним і яскравим.'}
+      ],
+      guides:[
+        {id:'one-day',title:'Що подивитись за 1 день у Парижі',summary:'Париж за один день: ранком – Ейфелева вежа та прогулянка вздовж Сени до Трокадеро, полудень – Лувр та сади Тюїльрі, ввечері – Собор Паризької Богоматері, Латинський квартал та Єлисейські поля.'},
+        {id:'cheap-travel',title:'Як подорожувати дешево',summary:'Щоб подорожувати дешево, бронюйте квитки заздалегідь, обирайте бюджетне житло як хостели або Airbnb, користуйтесь громадським транспортом, харчуйтесь у місцевих кафе чи на ринках і плануйте безкоштовні або недорогі активності.'}
+      ],
+      blog:[
+        {id:'b1',title:'Найкращі пляжі Європи',img:'https://images.unian.net/photos/2024_07/thumb_files/400_0_1720767767-9224.jpg?r=350326',excerpt:'Найкращі пляжі Європи пропонують неймовірні краєвиди та кришталеву воду: золоті піски Ібіци та Майорки для активного відпочинку, мальовничі бухти Кріту з тихими пляжами, чисті і просторі узбережжя Алгарве в Португалії, унікальні пляжі Сардинії з бірюзовою водою, а також затишні і кам’янисті пляжі Хорватії, де можна насолоджуватися спокоєм і красивими заходами сонця.'},
+        {id:'b2',title:'Що покласти у ручний багаж',img:'https://static.tildacdn.com/tild3964-6163-4831-a636-353162383337/shutterstock_2040654.jpeg',excerpt:'У ручний багаж покладіть документи, гроші, телефон з зарядкою, ліки, перекус, косметику до 100 мл, змінний одяг та цінні речі, щоб подорож була зручною та безпечною.'}
+      ]
+    }
+
+    // --- RENDER HELPERS ---
+    const el = id=>document.getElementById(id)
+
+    function renderPopular(){
+      const root = el('popular'); root.innerHTML=''
+      data.popular.forEach(p=>{
+        const card = document.createElement('div'); card.className='card'
+        card.innerHTML = `
+          <img src="${p.img}" alt="${p.title}" />
+          <h3>${p.title}</h3>
+          <div class=\"muted\">Натисни, щоб дивитись подробиці</div>
+        `
+        card.addEventListener('click',()=>openModal(`<h2>${p.title}</h2><p>Це один із найпопулярніших туристичних напрямків світу. Ми зібрали ключові пам’ятки, найкращий сезон для подорожі, поради щодо транспорту та бюджетні рекомендації, щоб допомогти тобі спланувати мандрівку максимально ефективно.</p>`))
+        root.appendChild(card)
+      })
+    }
+
+    function renderCountries(){
+      const root = el('countriesGrid'); root.innerHTML=''
+      data.countries.forEach(c=>{
+        const card = document.createElement('div'); card.className='card'
+        card.innerHTML = `
+          <h3>${c.name} — <span class="muted">${c.priceLevel}</span></h3>
+          <p class="muted">${c.desc}</p>
+          <div class=\"muted\">Кращий час: ${c.bestTime}</div>
+        `
+        card.addEventListener('click',()=>openModal(countryHtml(c)))
+        root.appendChild(card)
+      })
+    }
+
+    function countryHtml(c){
+      return `
+        <h2>${c.name}</h2>
+        <p>${c.desc}</p>
+        <p><strong>Кращий час:</strong> ${c.bestTime}</p>
+        <p><strong>Міста:</strong> ${c.cities.join(', ')}</p>
+        <h3>Маршрут 3 дні — приклад</h3>
+        <ol>
+          <li>День 1 — Оглядова екскурсія центром</li>
+          <li>День 2 — Музеї і кав&#39;ярні</li>
+          <li>День 3 — Пасажі та локальна кухня</li>
+        </ol>
+      `
+    }
+
+    function renderCategories(){
+      const root = el('categoriesGrid'); root.innerHTML=''
+      data.categories.forEach(cat=>{
+        const card = document.createElement('div'); card.className='card'
+        card.innerHTML = `
+          <h3>${cat.title}</h3>
+          <p class="muted">${cat.desc}</p>
+          <button onclick="openModal('<h2>${cat.title}</h2><p>${cat.desc}</p>')">Детальніше</button>
+        `
+        root.appendChild(card)
+      })
+    }
+
+    function renderGuides(){
+      el('guidesList').innerHTML = ''
+      data.guides.forEach(g=>{
+        const card = document.createElement('div'); card.className='card'
+        card.innerHTML = `
+          <h3>${g.title}</h3>
+          <p class=\"muted\">${g.summary}</p>
+          <button onclick="openModal('<h2>${g.title}</h2><p>${g.summary}</p>')">Читати</button>
+        `
+        el('guidesList').appendChild(card)
+      })
+    }
+
+    function renderBlog(){
+      el('blogList').innerHTML=''
+      data.blog.forEach(b=>{
+        const item = document.createElement('div'); item.className='blog-item card'
+        item.innerHTML = `
+          <img src="${b.img}" alt="${b.title}" />
+          <div>
+            <h3>${b.title}</h3>
+            <p class=\"muted\">${b.excerpt}</p>
+            <div><button onclick="openModal('<h2>${b.title}</h2><p>${b.excerpt}</p>')">Читати</button></div>
+          </div>
+        `
+        el('blogList').appendChild(item)
+      })
+    }
+
+    // --- MODAL ---
+    const modal = el('modal');
+    function openModal(html){ el('modalContent').innerHTML = html; modal.classList.add('show') }
+    el('closeModal').addEventListener('click',()=>modal.classList.remove('show'))
+    modal.addEventListener('click',e=>{ if(e.target===modal) modal.classList.remove('show') })
+
+    // --- SEARCH ---
+    el('searchBtn').addEventListener('click',()=>{
+      const q = el('searchInput').value.toLowerCase().trim();
+      const type = el('typeSelect').value
+      if(!q && !type){ alert('Введи пошуковий запит або вибери тип відпочинку.'); return }
+      // simple filter demo — search in countries and popular
+      const found = []
+      data.countries.forEach(c=>{ if(c.name.toLowerCase().includes(q) || c.cities.join(' ').toLowerCase().includes(q)) found.push(c) })
+      data.popular.forEach(p=>{ if(p.title.toLowerCase().includes(q)) found.push({name:p.title,desc:'Популярний напрямок'}) })
+      if(type){ openModal('<h2>Результати пошуку</h2><p>Фільтр: '+type+'</p><pre>'+JSON.stringify(found, null, 2)+'</pre>') }
+      else openModal('<h2>Результати пошуку</h2><pre>'+JSON.stringify(found, null, 2)+'</pre>')
+    })
+
+    // --- CURRENCY (very simple demo) ---
+    el('convertBtn').addEventListener('click',()=>{
+      const a = parseFloat(el('amount').value||0)
+      const cur = el('currency').value
+      // demo rates (not up-to-date) — in real project use API
+      const rates = {USD:0.027, EUR:0.025}
+      const res = (a * (rates[cur]||0)).toFixed(2)
+      el('converted').innerText = `${a} UAH ≈ ${res} ${cur}`
+    })
+
+    // --- WEATHER (demo only: not calling external API) ---
+    function fakeWeather(city){
+      const demos = {kyiv:'+18°C, сонячно', paris:'+22°C, легка хмарність', rome:'+25°C, ясно'}
+      return demos[city.toLowerCase()] || 'Погода недоступна (цей прототип не робить реальні запити).'
+    }
+
+    // --- CONTACT FORM ---
+    el('contactForm').addEventListener('submit',(e)=>{
+      e.preventDefault();
+      alert('Дякуємо! Повідомлення надіслано (прототип).')
+      el('contactForm').reset()
+    })
+
+    // --- NAV LINKS (SPA-like) ---
+    document.querySelectorAll('[data-link]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const target = a.dataset.link
+        // scroll to section if exists
+        const sec = document.getElementById(target)
+        if(sec){ sec.scrollIntoView({behavior:'smooth'}) }
+        if(target==='subscribe') openModal('<h2>Підписка</h2><p>Підпишись на оновлення (прототип).</p>')
+      })
+    })
+
+    // --- INITIAL RENDER ---
+    renderPopular(); renderCountries(); renderCategories(); renderGuides(); renderBlog();
+
+    // --- small polish: click popular cards show city weather demo ---
+    // (hook: fill weather when search used as city name)
+    el('searchInput').addEventListener('keydown',e=>{ if(e.key==='Enter') el('searchBtn').click() })
+    el('searchBtn').addEventListener('click',()=>{
+      const q = el('searchInput').value.trim()
+      if(q) el('weather').innerText = fakeWeather(q)
+
+
+    })
+
+
+
+
+const loader = document.getElementById('loader-fill');
+    let width = 0;
+    const interval = setInterval(()=>{
+      width += 1; // 5 секунд = 5000ms, 100 кроків = 50ms на крок
+      loader.style.width = width + '%';
+      if(width >= 100) clearInterval(interval);
+    },30);
+
+    // Через 5 секунд показати контент сайту
+    setTimeout(()=>{
+      document.getElementById('preloader').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'block';
+      document.body.style.overflow = 'auto'; // дозволити скрол
+    },3000);
+
+
+    // Бургер-меню
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+
+burger.addEventListener('click', () => {
+  mobileMenu.classList.toggle('show');
+});
+
+  </script>
+  
+  
+
+ 
+
+  <script>
+    
+
+    
+  </script>
+
+</body>
+</html>
